@@ -78,22 +78,6 @@ export const AdminLogin = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="bg-sage-50 border border-sage-200 rounded-xl p-3 flex items-center justify-between">
-              <div className="text-[11px] text-forest-950">
-                <span className="font-bold">Initial Admin:</span> admin@namahsiddham.com
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail('admin@namahsiddham.com');
-                  setPassword('AdminSecure2026#Namah');
-                }}
-                className="text-[11px] font-bold text-forest-900 bg-white hover:bg-gold-50 border border-sage-300 px-2.5 py-1 rounded-lg shadow-2xs"
-              >
-                Auto-fill Login
-              </button>
-            </div>
-
             {/* Email */}
             <div className="space-y-1.5">
               <label className="block text-xs font-bold text-forest-950 uppercase tracking-wider">
