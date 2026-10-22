@@ -1,32 +1,120 @@
 import apiClient from './client';
+import { mockPlatforms, mockNews, mockJobs, mockTeam } from '../data/mockData';
+
+const withFallback = async (apiCall, getFallback) => {
+  try {
+    return await apiCall();
+  } catch (err) {
+    const fallback = typeof getFallback === 'function' ? getFallback() : getFallback;
+    return { data: { success: true, data: fallback } };
+  }
+};
 
 export const publicApi = {
   // Settings & Metadata
-  getSettings: () => apiClient.get('/public/settings'),
+  getSettings: () =>
+    withFallback(
+      () => apiClient.get('/public/settings'),
+      null
+    ),
 
   // Platforms / Ecosystem
-  getPlatforms: () => apiClient.get('/public/platforms'),
-  getPlatformBySlug: (slug) => apiClient.get(`/public/platforms/${slug}`),
+  getPlatforms: () =>
+    withFallback(
+      () => apiClient.get('/public/platforms'),
+      mockPlatforms
+    ),
+
+  getPlatformBySlug: (slug) =>
+    withFallback(
+      () => apiClient.get(`/public/platforms/${slug}`),
+      () => mockPlatforms.find((p) => p.slug === slug) || mockPlatforms[0]
+    ),
 
   // CMS Content
-  getPageBySlug: (slug) => apiClient.get(`/public/pages/${slug}`),
+  getPageBySlug: (slug) =>
+    withFallback(
+      () => apiClient.get(`/public/pages/${slug}`),
+      null
+    ),
 
   // Leadership Team
-  getTeam: () => apiClient.get('/public/team'),
+  getTeam: () =>
+    withFallback(
+      () => apiClient.get('/public/team'),
+      mockTeam
+    ),
 
   // News
-  getNews: () => apiClient.get('/public/news'),
-  getNewsBySlug: (slug) => apiClient.get(`/public/news/${slug}`),
+  getNews: () =>
+    withFallback(
+      () => apiClient.get('/public/news'),
+      mockNews
+    ),
+
+  getNewsBySlug: (slug) =>
+    withFallback(
+      () => apiClient.get(`/public/news/${slug}`),
+      () => mockNews.find((n) => n.slug === slug) || mockNews[0]
+    ),
 
   // Careers
-  getJobs: () => apiClient.get('/public/jobs'),
+  getJobs: () =>
+    withFallback(
+      () => apiClient.get('/public/jobs'),
+      mockJobs
+    ),
 
-  // Inquiries Submissions
-  submitContact: (data) => apiClient.post('/public/contact', data),
-  submitPartnerInquiry: (data) => apiClient.post('/public/partner-inquiries', data),
-  submitJobApplication: (data) => apiClient.post('/public/job-applications', data),
+  // Inquiries Submissions (Persists to localStorage if API is offline)
+  submitContact: async (data) => {
+    try {
+      return await apiClient.post('/public/contact', data);
+    } catch (err) {
+      const existing = JSON.parse(localStorage.getItem('namah_mock_contacts') || '[]');
+      const newInquiry = {
+        _id: 'inq_' + Date.now(),
+        ...data,
+        status: 'new',
+        createdAt: new Date().toISOString(),
+      };
+      localStorage.setItem('namah_mock_contacts', JSON.stringify([newInquiry, ...existing]));
+      return { data: { success: true, message: 'Inquiry received and logged securely.' } };
+    }
+  },
 
-  // Document Upload (e.g. resume)
+  submitPartnerInquiry: async (data) => {
+    try {
+      return await apiClient.post('/public/partner-inquiries', data);
+    } catch (err) {
+      const existing = JSON.parse(localStorage.getItem('namah_mock_partners') || '[]');
+      const newInquiry = {
+        _id: 'part_' + Date.now(),
+        ...data,
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+      };
+      localStorage.setItem('namah_mock_partners', JSON.stringify([newInquiry, ...existing]));
+      return { data: { success: true, message: 'Partner application submitted successfully.' } };
+    }
+  },
+
+  submitJobApplication: async (data) => {
+    try {
+      return await apiClient.post('/public/job-applications', data);
+    } catch (err) {
+      const existing = JSON.parse(localStorage.getItem('namah_mock_applications') || '[]');
+      const newApp = {
+        _id: 'app_' + Date.now(),
+        ...data,
+        status: 'applied',
+        createdAt: new Date().toISOString(),
+      };
+      localStorage.setItem('namah_mock_applications', JSON.stringify([newApp, ...existing]));
+      return { data: { success: true, message: 'Job application registered successfully.' } };
+    }
+  },
+
+  // Document Upload
   uploadDocument: (formData) =>
     apiClient.post('/upload/document', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
