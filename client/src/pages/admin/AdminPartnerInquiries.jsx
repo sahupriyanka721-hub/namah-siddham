@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Handshake, Download, Search, Eye, Trash2, MessageSquare, AlertCircle } from 'lucide-react';
+import { Handshake, Download, Search, Eye, Trash2, MessageSquare, AlertCircle, Building2, MapPin, Phone, Mail } from 'lucide-react';
 import { adminApi } from '../../api/adminApi';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
@@ -111,11 +111,12 @@ export const AdminPartnerInquiries = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif font-bold text-2xl text-forest-950">
+          <h1 className="font-heading font-black text-2xl text-navy-900 tracking-tight flex items-center">
+            <Handshake className="w-6 h-6 mr-2.5 text-royal-500" />
             Partnership Applications
           </h1>
-          <p className="text-xs text-charcoal-500">
-            Review service professionals, rental fleet hosts, and vendor partnership submissions.
+          <p className="text-xs text-navy-600 mt-1">
+            Review service professionals, rental fleet hosts, and vendor partnership submissions across ecosystem platforms.
           </p>
         </div>
 
@@ -125,25 +126,25 @@ export const AdminPartnerInquiries = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-sage-200 shadow-soft-sm flex flex-col lg:flex-row items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-4">
         <div className="relative w-full lg:w-72">
-          <Search className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search by business, contact, city..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600"
+            className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500"
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
           <div className="flex items-center space-x-1.5">
-            <span className="text-xs text-charcoal-500">Category:</span>
+            <span className="text-xs text-navy-600 font-semibold">Category:</span>
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-2.5 py-1.5 text-xs bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600 font-medium"
+              className="px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500 font-medium text-navy-800"
             >
               {partnershipCategories.map((c) => (
                 <option key={c} value={c}>
@@ -154,11 +155,11 @@ export const AdminPartnerInquiries = () => {
           </div>
 
           <div className="flex items-center space-x-1.5">
-            <span className="text-xs text-charcoal-500">Status:</span>
+            <span className="text-xs text-navy-600 font-semibold">Status:</span>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-2.5 py-1.5 text-xs bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600 font-medium"
+              className="px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500 font-medium text-navy-800"
             >
               <option value="all">All Statuses</option>
               <option value="New">New</option>
@@ -172,38 +173,38 @@ export const AdminPartnerInquiries = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-sage-200 shadow-soft-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         {loading ? (
-          <div className="py-20 text-center text-xs text-charcoal-500">Loading partner inquiries...</div>
+          <div className="py-20 text-center text-xs text-slate-400">Loading partner inquiries...</div>
         ) : inquiries.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-sage-50 text-[11px] font-bold text-forest-950 uppercase tracking-wider border-b border-sage-200">
+                <tr className="bg-slate-50 text-[11px] font-bold text-navy-900 uppercase tracking-wider border-b border-slate-200">
                   <th className="py-3.5 px-4">Ref ID</th>
                   <th className="py-3.5 px-4">Contact / Enterprise</th>
                   <th className="py-3.5 px-4">Category</th>
-                  <th className="py-3.5 px-4">Platform</th>
+                  <th className="py-3.5 px-4">Target Platform</th>
                   <th className="py-3.5 px-4">Location</th>
                   <th className="py-3.5 px-4">Status</th>
                   <th className="py-3.5 px-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-sage-100 text-xs">
+              <tbody className="divide-y divide-slate-100 text-xs">
                 {inquiries.map((item) => (
-                  <tr key={item._id} className="hover:bg-sage-50/60 transition-colors">
-                    <td className="py-3.5 px-4 font-mono font-bold text-forest-900">
+                  <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
+                    <td className="py-3.5 px-4 font-mono font-bold text-royal-600">
                       {item.referenceId}
                     </td>
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-forest-950">{item.businessName}</div>
-                      <div className="text-[11px] text-charcoal-500">
+                      <div className="font-bold text-navy-900">{item.businessName}</div>
+                      <div className="text-[11px] text-slate-500">
                         {item.name} • {item.mobile}
                       </div>
                     </td>
                     <td className="py-3.5 px-4 font-semibold text-gold-700">{item.category}</td>
-                    <td className="py-3.5 px-4 text-forest-900 font-medium">{item.platform}</td>
-                    <td className="py-3.5 px-4 text-charcoal-600">
+                    <td className="py-3.5 px-4 text-royal-700 font-semibold">{item.platform}</td>
+                    <td className="py-3.5 px-4 text-slate-600">
                       {item.city}, {item.state}
                     </td>
                     <td className="py-3.5 px-4">
@@ -212,7 +213,7 @@ export const AdminPartnerInquiries = () => {
                     <td className="py-3.5 px-4 text-right">
                       <button
                         onClick={() => openDetailModal(item)}
-                        className="px-3 py-1.5 rounded-lg bg-forest-50 hover:bg-forest-100 text-forest-900 text-xs font-bold inline-flex items-center"
+                        className="px-3 py-1.5 rounded-lg bg-royal-50 hover:bg-royal-100 text-royal-700 text-xs font-bold inline-flex items-center transition-colors"
                       >
                         <Eye className="w-3.5 h-3.5 mr-1" />
                         <span>Inspect</span>
@@ -224,7 +225,7 @@ export const AdminPartnerInquiries = () => {
             </table>
           </div>
         ) : (
-          <div className="py-16 text-center text-xs text-charcoal-400">
+          <div className="py-16 text-center text-xs text-slate-400">
             No partner inquiries found.
           </div>
         )}
@@ -239,103 +240,107 @@ export const AdminPartnerInquiries = () => {
       >
         {selectedInquiry && (
           <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4 bg-sage-50 p-4 rounded-xl border border-sage-200 text-xs">
+            <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
               <div>
-                <span className="font-bold text-forest-950 block">Business Entity:</span>
-                <span className="text-charcoal-700 font-semibold">{selectedInquiry.businessName}</span>
+                <span className="font-bold text-navy-900 block">Business Entity:</span>
+                <span className="text-navy-700 font-semibold">{selectedInquiry.businessName}</span>
               </div>
               <div>
-                <span className="font-bold text-forest-950 block">Contact Person:</span>
-                <span className="text-charcoal-700">{selectedInquiry.name}</span>
+                <span className="font-bold text-navy-900 block">Contact Person:</span>
+                <span className="text-navy-700">{selectedInquiry.name}</span>
               </div>
               <div>
-                <span className="font-bold text-forest-950 block">Email Address:</span>
-                <a href={`mailto:${selectedInquiry.email}`} className="text-forest-900 underline">
+                <span className="font-bold text-navy-900 block">Email Address:</span>
+                <a href={`mailto:${selectedInquiry.email}`} className="text-royal-600 underline">
                   {selectedInquiry.email}
                 </a>
               </div>
               <div>
-                <span className="font-bold text-forest-950 block">Mobile:</span>
-                <a href={`tel:${selectedInquiry.mobile}`} className="text-forest-900 font-mono">
-                  {selectedInquiry.mobile}
-                </a>
+                <span className="font-bold text-navy-900 block">Mobile Number:</span>
+                <span className="text-navy-700">{selectedInquiry.mobile}</span>
               </div>
               <div>
-                <span className="font-bold text-forest-950 block">Partnership Category:</span>
+                <span className="font-bold text-navy-900 block">Category:</span>
                 <span className="text-gold-700 font-bold">{selectedInquiry.category}</span>
               </div>
               <div>
-                <span className="font-bold text-forest-950 block">Target Platform:</span>
-                <span className="text-forest-900 font-medium">{selectedInquiry.platform}</span>
+                <span className="font-bold text-navy-900 block">Target Platform:</span>
+                <span className="text-royal-700 font-bold">{selectedInquiry.platform}</span>
               </div>
-              <div className="col-span-2">
-                <span className="font-bold text-forest-950 block">Operating City & State:</span>
-                <span className="text-charcoal-700">{selectedInquiry.city}, {selectedInquiry.state}</span>
+              <div>
+                <span className="font-bold text-navy-900 block">City & State:</span>
+                <span className="text-navy-700">
+                  {selectedInquiry.city}, {selectedInquiry.state} {selectedInquiry.pincode ? `(${selectedInquiry.pincode})` : ''}
+                </span>
+              </div>
+              <div>
+                <span className="font-bold text-navy-900 block">Experience / Scale:</span>
+                <span className="text-navy-700">{selectedInquiry.experienceYears || 'Not specified'}</span>
               </div>
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs font-bold text-forest-950 uppercase tracking-wider block">
-                Partner Proposal / Capacity:
+              <span className="text-xs font-bold text-navy-900 uppercase tracking-wider block">
+                Operation Details & Capabilities:
               </span>
-              <div className="bg-white p-4 rounded-xl border border-sage-200 text-xs sm:text-sm text-charcoal-800 leading-relaxed whitespace-pre-line">
-                {selectedInquiry.message}
+              <div className="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm text-navy-800 leading-relaxed whitespace-pre-line shadow-sm">
+                {selectedInquiry.details || 'No additional details provided.'}
               </div>
             </div>
 
             {/* Internal Notes History */}
-            <div className="space-y-2 pt-2 border-t border-sage-200">
-              <span className="text-xs font-bold text-forest-950 uppercase tracking-wider flex items-center">
-                <MessageSquare className="w-3.5 h-3.5 mr-1 text-gold-600" />
-                Administrative Evaluation Notes (Private)
+            <div className="space-y-2 pt-2 border-t border-slate-200">
+              <span className="text-xs font-bold text-navy-900 uppercase tracking-wider flex items-center">
+                <MessageSquare className="w-3.5 h-3.5 mr-1 text-royal-600" />
+                Internal Verification Notes
               </span>
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 {selectedInquiry.internalNotes && selectedInquiry.internalNotes.length > 0 ? (
                   selectedInquiry.internalNotes.map((note, idx) => (
-                    <div key={idx} className="bg-sage-50 p-2.5 rounded-lg border border-sage-200 text-xs">
-                      <div className="flex items-center justify-between text-[10px] text-charcoal-400 mb-1">
-                        <span>By: {note.author}</span>
+                    <div key={idx} className="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+                      <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
+                        <span className="font-semibold text-navy-900">By: {note.author}</span>
                         <span>{new Date(note.createdAt).toLocaleString()}</span>
                       </div>
-                      <p className="text-charcoal-700">{note.note}</p>
+                      <p className="text-navy-700">{note.note}</p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-[11px] text-charcoal-400 italic">No internal notes added yet.</p>
+                  <p className="text-[11px] text-slate-400 italic">No verification notes recorded yet.</p>
                 )}
               </div>
             </div>
 
-            {/* Update Status Form */}
-            <form onSubmit={handleUpdateStatus} className="pt-4 border-t border-sage-200 space-y-4">
+            {/* Status Update Form */}
+            <form onSubmit={handleUpdateStatus} className="pt-4 border-t border-slate-200 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="block text-xs font-bold text-forest-950 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-navy-900 uppercase tracking-wider">
                     Application Status
                   </label>
                   <select
                     value={newStatus}
                     onChange={(e) => setNewStatus(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600 font-medium"
+                    className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500 font-medium text-navy-800"
                   >
                     <option value="New">New</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Contacted">Contacted</option>
-                    <option value="Resolved">Resolved</option>
-                    <option value="Closed">Closed</option>
+                    <option value="Resolved">Approved / Onboarded</option>
+                    <option value="Closed">Closed / Rejected</option>
                   </select>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-xs font-bold text-forest-950 uppercase tracking-wider">
-                    Add Evaluation Note
+                  <label className="block text-xs font-bold text-navy-900 uppercase tracking-wider">
+                    Add Verification Note
                   </label>
                   <input
                     type="text"
                     value={newNote}
                     onChange={(e) => setNewNote(e.target.value)}
-                    placeholder="e.g. Verified trade license, onboarding call scheduled"
-                    className="w-full px-3 py-2 text-xs bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600"
+                    placeholder="e.g. KYC verified, onboarding call scheduled"
+                    className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500 text-navy-900"
                   />
                 </div>
               </div>
@@ -346,10 +351,10 @@ export const AdminPartnerInquiries = () => {
                   onClick={() => handleDelete(selectedInquiry._id)}
                   className="text-xs text-red-600 hover:text-red-800 font-semibold"
                 >
-                  Delete Inquiry Record
+                  Delete Partner Inquiry
                 </button>
                 <Button type="submit" variant="primary" size="sm" loading={updating}>
-                  Save Evaluation Status
+                  Save Status & Note
                 </Button>
               </div>
             </form>

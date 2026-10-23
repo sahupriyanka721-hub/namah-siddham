@@ -2,7 +2,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
+  Code2,
   Layers,
+  FolderGit2,
   FileCode,
   Users2,
   Newspaper,
@@ -19,7 +21,9 @@ import {
 
 const menuItems = [
   { name: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-  { name: 'Platforms', path: '/admin/platforms', icon: Layers },
+  { name: 'IT Services', path: '/admin/services', icon: Code2 },
+  { name: 'Digital Platforms', path: '/admin/platforms', icon: Layers },
+  { name: 'Portfolio Projects', path: '/admin/portfolio', icon: FolderGit2 },
   { name: 'Page CMS', path: '/admin/pages', icon: FileCode },
   { name: 'Leadership & Team', path: '/admin/team', icon: Users2 },
   { name: 'News & Updates', path: '/admin/news', icon: Newspaper },
@@ -27,7 +31,7 @@ const menuItems = [
   { name: 'Contact Inquiries', path: '/admin/inquiries', icon: Mail },
   { name: 'Partner Inquiries', path: '/admin/partner-inquiries', icon: Handshake },
   { name: 'Job Applications', path: '/admin/applications', icon: UserCheck },
-  { name: 'Legal CMS', path: '/admin/legal', icon: Scale },
+  { name: 'Legal Policies CMS', path: '/admin/legal', icon: Scale },
   { name: 'Company Settings', path: '/admin/settings', icon: Settings },
   { name: 'Admin Profile', path: '/admin/profile', icon: UserCircle },
 ];
@@ -38,35 +42,33 @@ export const AdminSidebar = ({ mobileOpen, setMobileOpen }) => {
       {/* Mobile Backdrop */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-forest-950/70 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-navy-950/70 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       {/* Sidebar container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-forest-950 text-sage-200 border-r border-forest-900 flex flex-col transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-navy-950 text-surface-300 border-r border-navy-800 flex flex-col transition-transform duration-300 lg:translate-x-0 ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Brand Header */}
-        <div className="p-5 border-b border-forest-900 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-md">
-              <span className="text-forest-950 font-serif font-black text-sm">NS</span>
-            </div>
-            <div>
-              <span className="font-serif font-bold text-sm text-white uppercase tracking-wider block">
-                Namah Siddham
-              </span>
-              <span className="text-[9px] text-gold-400 font-mono tracking-widest uppercase block">
-                Admin Management Portal
-              </span>
-            </div>
+        <div className="p-4 border-b border-navy-800 flex items-center justify-between">
+          <div className="flex items-center space-x-2.5">
+            <img
+              src="/assets/namah-siddham-logo.png"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/assets/logo-white.svg';
+              }}
+              alt="Namah Siddham Logo"
+              className="h-8 w-auto object-contain"
+            />
           </div>
           <button
             onClick={() => setMobileOpen(false)}
-            className="lg:hidden text-sage-400 hover:text-white p-1"
+            className="lg:hidden text-surface-400 hover:text-white p-1"
           >
             <X className="w-5 h-5" />
           </button>
@@ -84,8 +86,8 @@ export const AdminSidebar = ({ mobileOpen, setMobileOpen }) => {
                 className={({ isActive }) =>
                   `flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-colors ${
                     isActive
-                      ? 'bg-forest-900 text-gold-300 border-l-4 border-gold-400 font-bold'
-                      : 'text-sage-300 hover:bg-forest-900/60 hover:text-white'
+                      ? 'bg-royal-500 text-white font-bold shadow-soft-sm'
+                      : 'text-surface-300 hover:bg-navy-900 hover:text-white'
                   }`
                 }
               >
@@ -97,12 +99,12 @@ export const AdminSidebar = ({ mobileOpen, setMobileOpen }) => {
         </div>
 
         {/* Bottom Link to Public Website */}
-        <div className="p-4 border-t border-forest-900 bg-forest-950">
+        <div className="p-4 border-t border-navy-800 bg-navy-950">
           <a
             href="/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between p-2.5 rounded-lg bg-forest-900 hover:bg-forest-800 text-gold-300 text-xs font-semibold transition-colors"
+            className="flex items-center justify-between p-2.5 rounded-xl bg-navy-900 hover:bg-navy-800 text-gold-400 text-xs font-semibold transition-colors border border-navy-800"
           >
             <span>View Public Website</span>
             <ExternalLink className="w-3.5 h-3.5" />

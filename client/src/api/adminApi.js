@@ -44,7 +44,7 @@ export const adminApi = {
         success: true,
         admin: {
           _id: 'admin_demo_superadmin',
-          name: 'Super Administrator',
+          name: 'Chief Administrator',
           email: 'admin@namahsiddham.com',
           role: 'superadmin',
         },
@@ -63,29 +63,31 @@ export const adminApi = {
       () => {
         const contacts = getStoredContacts();
         const partners = getStoredPartners();
-        const applications = getStoredApplications();
         return {
           stats: {
-            publishedPlatforms: mockPlatforms.length,
-            totalPlatforms: mockPlatforms.length,
+            totalPublishedServices: 4,
+            totalServices: 4,
+            totalPublishedPlatforms: 4,
+            productsUnderDevelopment: 4,
+            totalPlatforms: 4,
+            publishedPortfolioProjects: 4,
+            totalPortfolioProjects: 4,
             totalContactInquiries: contacts.length,
-            newContactInquiries: contacts.filter((c) => c.status === 'new').length,
+            newContactInquiries: contacts.filter((c) => c.status === 'New').length,
             totalPartnerInquiries: partners.length,
-            newPartnerInquiries: partners.filter((p) => p.status === 'pending').length,
-            activeJobs: mockJobs.length,
-            totalApplications: applications.length,
-            publishedNews: mockNews.length,
+            newPartnerInquiries: partners.filter((p) => p.status === 'New').length,
+            publishedJobOpenings: mockJobs.length,
+            totalApplications: 2,
+            publishedNewsArticles: mockNews.length,
           },
           system: {
-            databaseStatus: 'Online',
+            databaseStatus: 'Connected',
             cin: 'U77100MP2026PTC087531',
-            version: '1.0.0',
-            entity: 'Private Limited Company',
+            location: 'Bhopal, Madhya Pradesh, India',
           },
           recentActivity: {
             contacts: contacts.slice(0, 5),
             partners: partners.slice(0, 5),
-            applications: applications.slice(0, 5),
           },
         };
       }
@@ -101,7 +103,13 @@ export const adminApi = {
           companyType: 'Private Limited Company',
           cin: 'U77100MP2026PTC087531',
           officialEmail: 'contact@namahsiddham.com',
-          officialPhone: '+91 731 0000000',
+          officialPhone: '+91 755 0000000',
+          registeredOffice: {
+            city: 'Bhopal',
+            state: 'Madhya Pradesh',
+            country: 'India',
+            fullAddress: 'Registered Office: Bhopal, Madhya Pradesh, India. CIN: U77100MP2026PTC087531',
+          },
         },
       }
     ),
@@ -112,7 +120,44 @@ export const adminApi = {
       { success: true, message: 'Settings saved successfully.' }
     ),
 
-  // Platforms CRUD
+  // IT Services CRUD
+  getServices: (params) =>
+    withFallback(
+      () => apiClient.get('/admin/services', { params }),
+      { success: true, data: [] }
+    ),
+
+  getServiceById: (id) =>
+    withFallback(
+      () => apiClient.get(`/admin/services/${id}`),
+      { success: true, data: null }
+    ),
+
+  createService: (data) =>
+    withFallback(
+      () => apiClient.post('/admin/services', data),
+      { success: true, message: 'Service registered successfully.', data }
+    ),
+
+  updateService: (id, data) =>
+    withFallback(
+      () => apiClient.put(`/admin/services/${id}`, data),
+      { success: true, message: 'Service updated successfully.', data }
+    ),
+
+  deleteService: (id) =>
+    withFallback(
+      () => apiClient.delete(`/admin/services/${id}`),
+      { success: true, message: 'Service deleted.' }
+    ),
+
+  reorderServices: (items) =>
+    withFallback(
+      () => apiClient.post('/admin/services/reorder', { items }),
+      { success: true, message: 'Services display order updated.' }
+    ),
+
+  // Products / Platforms CRUD
   getPlatforms: (params) =>
     withFallback(
       () => apiClient.get('/admin/platforms', { params }),
@@ -149,6 +194,37 @@ export const adminApi = {
       { success: true, message: 'Platform order updated.' }
     ),
 
+  // Portfolio Projects CRUD
+  getPortfolio: (params) =>
+    withFallback(
+      () => apiClient.get('/admin/portfolio', { params }),
+      { success: true, data: [] }
+    ),
+
+  getPortfolioProjectById: (id) =>
+    withFallback(
+      () => apiClient.get(`/admin/portfolio/${id}`),
+      { success: true, data: null }
+    ),
+
+  createPortfolioProject: (data) =>
+    withFallback(
+      () => apiClient.post('/admin/portfolio', data),
+      { success: true, message: 'Portfolio project created successfully.', data }
+    ),
+
+  updatePortfolioProject: (id, data) =>
+    withFallback(
+      () => apiClient.put(`/admin/portfolio/${id}`, data),
+      { success: true, message: 'Portfolio project updated successfully.', data }
+    ),
+
+  deletePortfolioProject: (id) =>
+    withFallback(
+      () => apiClient.delete(`/admin/portfolio/${id}`),
+      { success: true, message: 'Portfolio project deleted.' }
+    ),
+
   // CMS Pages
   getPages: () =>
     withFallback(
@@ -168,7 +244,7 @@ export const adminApi = {
       { success: true, message: 'Content saved successfully.' }
     ),
 
-  // Team
+  // Leadership Team
   getTeam: () =>
     withFallback(
       () => apiClient.get('/admin/team'),
@@ -193,7 +269,7 @@ export const adminApi = {
       { success: true, message: 'Member removed.' }
     ),
 
-  // News
+  // News & Updates
   getNews: (params) =>
     withFallback(
       () => apiClient.get('/admin/news', { params }),
@@ -268,9 +344,12 @@ export const adminApi = {
 
   exportContactCSV: () => {
     const csvContent =
-      'Full Name,Email,Phone,Subject,Status,Created At\n' +
+      'Reference ID,Name,Business Name,Email,Mobile,City,Service Required,Budget,Message,Status,Created At\n' +
       getStoredContacts()
-        .map((c) => `"${c.fullName || c.name}","${c.email}","${c.phone || ''}","${c.subject}","${c.status}","${c.createdAt}"`)
+        .map(
+          (c) =>
+            `"${c.referenceId || ''}","${c.name || ''}","${c.businessName || ''}","${c.email || ''}","${c.phone || ''}","${c.city || ''}","${c.serviceRequired || ''}","${c.budgetRange || ''}","${(c.projectDescription || c.message || '').replace(/"/g, '""')}","${c.status || 'New'}","${c.createdAt || ''}"`
+        )
         .join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     return Promise.resolve({ data: blob });
@@ -300,9 +379,12 @@ export const adminApi = {
 
   exportPartnerCSV: () => {
     const csvContent =
-      'Company Name,Contact Person,Email,Phone,Partnership Type,Status,Created At\n' +
+      'Reference ID,Business Name,Contact Person,Email,Mobile,City,State,Category,Platform,Status,Created At\n' +
       getStoredPartners()
-        .map((p) => `"${p.companyName || p.businessName}","${p.contactPerson || p.name}","${p.email}","${p.phone || ''}","${p.partnershipType || p.category}","${p.status}","${p.createdAt}"`)
+        .map(
+          (p) =>
+            `"${p.referenceId || ''}","${p.businessName || ''}","${p.name || ''}","${p.email || ''}","${p.mobile || p.phone || ''}","${p.city || ''}","${p.state || ''}","${p.category || ''}","${p.platform || ''}","${p.status || 'New'}","${p.createdAt || ''}"`
+        )
         .join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     return Promise.resolve({ data: blob });

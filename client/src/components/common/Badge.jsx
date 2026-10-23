@@ -4,7 +4,9 @@ export const Badge = ({ children, status = 'default', className = '' }) => {
   const statusStyles = {
     Published: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     Live: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    'Coming Soon': 'bg-amber-50 text-amber-700 border-amber-200',
+    'Under Development': 'bg-amber-50 text-amber-800 border-amber-300 font-semibold',
+    'Coming Soon': 'bg-blue-50 text-royal-700 border-royal-200',
+    Hidden: 'bg-slate-100 text-slate-600 border-slate-300',
     Draft: 'bg-slate-100 text-slate-700 border-slate-200',
     Archived: 'bg-zinc-100 text-zinc-600 border-zinc-200',
     Closed: 'bg-red-50 text-red-700 border-red-200',

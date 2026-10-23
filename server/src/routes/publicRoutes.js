@@ -1,8 +1,12 @@
 import express from 'express';
 import {
   getSettings,
+  getServices,
+  getServiceBySlug,
   getPlatforms,
   getPlatformBySlug,
+  getPortfolio,
+  getPortfolioBySlug,
   getPageBySlug,
   getTeam,
   getNews,
@@ -19,9 +23,17 @@ const router = express.Router();
 // General & Settings
 router.get('/settings', getSettings);
 
-// Platforms & Ecosystem
+// IT Services
+router.get('/services', getServices);
+router.get('/services/:slug', getServiceBySlug);
+
+// Products & Platforms Ecosystem
 router.get('/platforms', getPlatforms);
 router.get('/platforms/:slug', getPlatformBySlug);
+
+// Portfolio & Case Studies
+router.get('/portfolio', getPortfolio);
+router.get('/portfolio/:slug', getPortfolioBySlug);
 
 // CMS Content
 router.get('/pages/:slug', getPageBySlug);

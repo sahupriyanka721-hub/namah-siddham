@@ -6,6 +6,14 @@ import {
   updateCompanySettings,
 } from '../controllers/adminController.js';
 import {
+  getAllServices,
+  getServiceById,
+  createService,
+  updateService,
+  deleteService,
+  reorderServices,
+} from '../controllers/serviceController.js';
+import {
   getAllPlatforms,
   getPlatformById,
   createPlatform,
@@ -13,6 +21,13 @@ import {
   deletePlatform,
   reorderPlatforms,
 } from '../controllers/platformController.js';
+import {
+  getAllPortfolioProjects,
+  getPortfolioProjectById,
+  createPortfolioProject,
+  updatePortfolioProject,
+  deletePortfolioProject,
+} from '../controllers/portfolioController.js';
 import {
   getAllPages,
   getPageBySlugAdmin,
@@ -65,6 +80,14 @@ router.get('/dashboard', getDashboardStats);
 router.get('/settings', getCompanySettings);
 router.put('/settings', updateCompanySettings);
 
+// IT Services CRUD
+router.get('/services', getAllServices);
+router.post('/services', createService);
+router.post('/services/reorder', reorderServices);
+router.get('/services/:id', getServiceById);
+router.put('/services/:id', updateService);
+router.delete('/services/:id', deleteService);
+
 // Platforms CRUD
 router.get('/platforms', getAllPlatforms);
 router.post('/platforms', createPlatform);
@@ -72,6 +95,13 @@ router.post('/platforms/reorder', reorderPlatforms);
 router.get('/platforms/:id', getPlatformById);
 router.put('/platforms/:id', updatePlatform);
 router.delete('/platforms/:id', deletePlatform);
+
+// Portfolio CRUD
+router.get('/portfolio', getAllPortfolioProjects);
+router.post('/portfolio', createPortfolioProject);
+router.get('/portfolio/:id', getPortfolioProjectById);
+router.put('/portfolio/:id', updatePortfolioProject);
+router.delete('/portfolio/:id', deletePortfolioProject);
 
 // Page Content CMS
 router.get('/pages', getAllPages);

@@ -42,30 +42,35 @@ export const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-forest-950 via-forest-900 to-forest-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-4">
-        {/* Brand Icon */}
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-xl mx-auto">
-          <span className="text-forest-950 font-serif font-black text-2xl">NS</span>
+        {/* Brand Logo */}
+        <div className="flex justify-center">
+          <img
+            src="/assets/namah-siddham-logo.png"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/assets/logo-white.svg';
+            }}
+            alt="Namah Siddham Corporation Logo"
+            className="h-12 w-auto object-contain mx-auto"
+          />
         </div>
 
         <div>
-          <h2 className="font-serif font-bold text-2xl sm:text-3xl text-white tracking-wide">
-            Namah Siddham Corporation
-          </h2>
           <p className="text-xs text-gold-400 font-mono tracking-widest uppercase mt-1">
-            Administrative Management Portal
+            Secure Administrative Management Portal
           </p>
         </div>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
-        <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-sage-200 space-y-6">
+        <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-surface-200 space-y-6">
           <div className="space-y-1">
-            <h3 className="font-serif font-bold text-lg text-forest-950">
+            <h3 className="font-serif font-bold text-lg text-navy-900">
               Authorized Personnel Login
             </h3>
-            <p className="text-xs text-charcoal-500">
+            <p className="text-xs text-surface-500">
               Sign in with your configured administrative credentials.
             </p>
           </div>
@@ -80,41 +85,41 @@ export const AdminLogin = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-forest-950 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-navy-900 uppercase tracking-wider">
                 Admin Email Identifier
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-surface-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   required
                   placeholder="admin@namahsiddham.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 text-xs sm:text-sm bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950"
+                  className="w-full pl-9 pr-4 py-2.5 text-xs sm:text-sm bg-surface-50 border border-surface-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-royal-500 text-navy-900"
                 />
               </div>
             </div>
 
             {/* Password */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-forest-950 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-navy-900 uppercase tracking-wider">
                 Secret Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-surface-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   placeholder="••••••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-9 pr-10 py-2.5 text-xs sm:text-sm bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600 text-forest-950"
+                  className="w-full pl-9 pr-10 py-2.5 text-xs sm:text-sm bg-surface-50 border border-surface-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-royal-500 text-navy-900"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-400 hover:text-forest-950 p-1"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-400 hover:text-navy-900 p-1"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -126,21 +131,21 @@ export const AdminLogin = () => {
                 type="submit"
                 variant="primary"
                 loading={loading}
-                className="w-full py-3 text-sm font-bold shadow-md"
+                className="w-full py-3 text-xs sm:text-sm font-bold shadow-md bg-royal-500 hover:bg-royal-600 text-white rounded-xl"
               >
-                Authenticate & Access Dashboard
+                Authenticate &amp; Access Dashboard
               </Button>
             </div>
           </form>
 
           {/* Security Notice */}
-          <div className="pt-4 border-t border-sage-200 text-center space-y-2">
-            <div className="inline-flex items-center text-[11px] text-forest-900 font-semibold">
+          <div className="pt-4 border-t border-surface-200 text-center space-y-2">
+            <div className="inline-flex items-center text-[11px] text-navy-900 font-semibold">
               <ShieldCheck className="w-3.5 h-3.5 mr-1 text-emerald-600" />
-              <span>TLS 256-bit Encrypted Session & Rate-Limited Access</span>
+              <span>TLS Encrypted Session &amp; Rate-Limited Authentication</span>
             </div>
-            <p className="text-[10px] text-charcoal-400">
-              Corporate Portal for Namah Siddham Corporation Private Limited (CIN: U77100MP2026PTC087531). Unauthorized access attempts are logged.
+            <p className="text-[10px] text-surface-400">
+              Corporate Administrative System for Namah Siddham Corporation Private Limited (CIN: U77100MP2026PTC087531).
             </p>
           </div>
         </div>
@@ -148,7 +153,7 @@ export const AdminLogin = () => {
         <div className="mt-6 text-center">
           <Link
             to="/"
-            className="text-xs text-sage-300 hover:text-gold-300 transition-colors inline-flex items-center"
+            className="text-xs text-surface-400 hover:text-gold-400 transition-colors inline-flex items-center"
           >
             <span>← Return to Public Corporate Website</span>
           </Link>

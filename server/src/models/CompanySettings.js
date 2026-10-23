@@ -20,23 +20,27 @@ const CompanySettingsSchema = new mongoose.Schema(
     },
     businessPositioning: {
       type: String,
-      default: 'A multi-platform digital business company building and operating specialized online marketplaces and aggregator platforms.',
+      default:
+        'Namah Siddham Corporation Private Limited combines IT expertise with a growing portfolio of digital platforms to help businesses establish their digital presence and connect customers, service providers, sellers, and partners.',
     },
     logoUrl: {
       type: String,
-      default: '',
+      default: '/assets/namah-siddham-logo.png',
     },
     faviconUrl: {
       type: String,
-      default: '',
+      default: '/favicon.svg',
     },
     registeredOffice: {
-      addressLine1: { type: String, default: 'Madhya Pradesh, India' },
-      city: { type: String, default: 'Indore' },
+      addressLine1: { type: String, default: 'Bhopal, Madhya Pradesh, India' },
+      city: { type: String, default: 'Bhopal' },
       state: { type: String, default: 'Madhya Pradesh' },
       country: { type: String, default: 'India' },
-      pincode: { type: String, default: '452001' },
-      fullAddress: { type: String, default: 'Registered Office: Madhya Pradesh, India. CIN: U77100MP2026PTC087531' },
+      pincode: { type: String, default: '462001' },
+      fullAddress: {
+        type: String,
+        default: 'Registered Office: Bhopal, Madhya Pradesh, India. CIN: U77100MP2026PTC087531',
+      },
     },
     officialEmail: {
       type: String,
@@ -50,19 +54,20 @@ const CompanySettingsSchema = new mongoose.Schema(
     },
     officialPhone: {
       type: String,
-      default: '+91 731 0000000',
+      default: '+91 755 0000000',
       trim: true,
     },
     socialLinks: {
       linkedin: { type: String, default: 'https://linkedin.com/company/namahsiddham' },
       twitter: { type: String, default: 'https://twitter.com/namahsiddham' },
-      facebook: { type: String, default: '' },
-      instagram: { type: String, default: '' },
+      facebook: { type: String, default: 'https://facebook.com/namahsiddham' },
+      instagram: { type: String, default: 'https://instagram.com/namahsiddham' },
     },
     footerContent: {
       aboutText: {
         type: String,
-        default: 'Namah Siddham Corporation Private Limited is building a portfolio of specialized digital platforms that connect people, services, sellers, and business opportunities through technology-enabled marketplace experiences.',
+        default:
+          'Namah Siddham Corporation Private Limited combines IT expertise with a growing portfolio of digital platforms to help businesses establish their digital presence and connect customers, service providers, sellers, and partners.',
       },
       copyrightText: {
         type: String,
@@ -72,16 +77,45 @@ const CompanySettingsSchema = new mongoose.Schema(
     seoDefaults: {
       metaTitle: {
         type: String,
-        default: 'Namah Siddham Corporation Private Limited — Multi-Platform Digital Aggregator',
+        default:
+          'Namah Siddham Corporation Private Limited — IT Services & Digital Products Ecosystem',
       },
       metaDescription: {
         type: String,
-        default: 'Namah Siddham Corporation Private Limited is building a portfolio of specialized digital platforms that connect people, services, sellers, and business opportunities through technology-enabled marketplace experiences.',
+        default:
+          'Namah Siddham Corporation Private Limited combines IT expertise with a growing portfolio of digital platforms to help businesses establish their digital presence and connect customers, service providers, sellers, and partners.',
       },
     },
     mapEmbedUrl: {
       type: String,
       default: '',
+    },
+    ctaSettings: {
+      title: {
+        type: String,
+        default: 'Have a Digital Idea? Let’s Build It Together.',
+      },
+      subtitle: {
+        type: String,
+        default:
+          'Connect with our team to discuss software development, mobile applications, digital marketing, or opportunities across our digital platforms.',
+      },
+      primaryButtonText: {
+        type: String,
+        default: 'Discuss Your Project',
+      },
+      primaryButtonLink: {
+        type: String,
+        default: '/contact',
+      },
+      secondaryButtonText: {
+        type: String,
+        default: 'Contact Us',
+      },
+      secondaryButtonLink: {
+        type: String,
+        default: '/contact',
+      },
     },
   },
   {
@@ -89,4 +123,5 @@ const CompanySettingsSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.CompanySettings || mongoose.model('CompanySettings', CompanySettingsSchema);
+export default mongoose.models.CompanySettings ||
+  mongoose.model('CompanySettings', CompanySettingsSchema);

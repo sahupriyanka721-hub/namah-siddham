@@ -6,7 +6,9 @@ import { AdminHeader } from './AdminHeader';
 
 const routeTitles = {
   '/admin/dashboard': 'Dashboard Overview',
-  '/admin/platforms': 'Ecosystem Platform Management',
+  '/admin/services': 'IT Services & Digital Solutions Management',
+  '/admin/portfolio': 'Portfolio & Case Studies Management',
+  '/admin/platforms': 'Digital Products & Platforms Management',
   '/admin/pages': 'Page Content Management (CMS)',
   '/admin/team': 'Leadership & Team Management',
   '/admin/news': 'News & Corporate Announcements',
@@ -39,7 +41,7 @@ export const AdminLayout = () => {
   const currentTitle = routeTitles[location.pathname] || 'Administration Portal';
 
   return (
-    <div className="min-h-screen bg-[#F4F7F5] flex text-charcoal-900">
+    <div className="min-h-screen bg-[#F5F7FB] flex text-navy-900">
       <AdminSidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
       <div className="flex-1 flex flex-col min-w-0 lg:pl-64">

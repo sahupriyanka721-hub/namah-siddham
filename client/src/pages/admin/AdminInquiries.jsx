@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Download, Search, Eye, Trash2, CheckCircle2, MessageSquare, AlertCircle } from 'lucide-react';
+import { Mail, Download, Search, Eye, Trash2, CheckCircle2, MessageSquare, AlertCircle, Building2, MapPin, DollarSign, Phone } from 'lucide-react';
 import { adminApi } from '../../api/adminApi';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
@@ -98,38 +98,39 @@ export const AdminInquiries = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif font-bold text-2xl text-forest-950">
-            Corporate Contact Inquiries
+          <h1 className="font-heading font-black text-2xl text-navy-900 tracking-tight flex items-center">
+            <Mail className="w-6 h-6 mr-2.5 text-royal-500" />
+            Corporate & IT Project Inquiries
           </h1>
-          <p className="text-xs text-charcoal-500">
-            Review incoming corporate messages, partner proposals, and support escalations.
+          <p className="text-xs text-navy-600 mt-1">
+            Review incoming project briefs, development requests, budget indications, and corporate messages.
           </p>
         </div>
 
         <Button onClick={handleExportCSV} variant="secondary" icon={Download} size="sm">
-          Export Inquiries to CSV
+          Export to CSV
         </Button>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-sage-200 shadow-soft-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-charcoal-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search inquiries by name, email, ref ID..."
+            placeholder="Search by name, company, city, email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600"
+            className="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500"
           />
         </div>
 
         <div className="flex items-center space-x-2">
-          <span className="text-xs text-charcoal-500">Status:</span>
+          <span className="text-xs text-navy-600 font-semibold">Status:</span>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-1.5 text-xs bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600 font-medium"
+            className="px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500 font-medium text-navy-800"
           >
             <option value="all">All Inquiries</option>
             <option value="New">New</option>
@@ -142,39 +143,53 @@ export const AdminInquiries = () => {
       </div>
 
       {/* Inquiries Table */}
-      <div className="bg-white rounded-2xl border border-sage-200 shadow-soft-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         {loading ? (
-          <div className="py-20 text-center text-xs text-charcoal-500">Loading inquiries...</div>
+          <div className="py-20 text-center text-xs text-slate-400">Loading inquiries...</div>
         ) : inquiries.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-sage-50 text-[11px] font-bold text-forest-950 uppercase tracking-wider border-b border-sage-200">
+                <tr className="bg-slate-50 text-[11px] font-bold text-navy-900 uppercase tracking-wider border-b border-slate-200">
                   <th className="py-3.5 px-4">Ref ID</th>
                   <th className="py-3.5 px-4">Date</th>
-                  <th className="py-3.5 px-4">Contact</th>
-                  <th className="py-3.5 px-4">Category & Subject</th>
+                  <th className="py-3.5 px-4">Client / Company</th>
+                  <th className="py-3.5 px-4">Service Required</th>
+                  <th className="py-3.5 px-4">Budget Range</th>
                   <th className="py-3.5 px-4">Status</th>
                   <th className="py-3.5 px-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-sage-100 text-xs">
+              <tbody className="divide-y divide-slate-100 text-xs">
                 {inquiries.map((item) => (
-                  <tr key={item._id} className="hover:bg-sage-50/60 transition-colors">
-                    <td className="py-3.5 px-4 font-mono font-bold text-forest-900">
+                  <tr key={item._id} className="hover:bg-slate-50/70 transition-colors">
+                    <td className="py-3.5 px-4 font-mono font-bold text-royal-600">
                       {item.referenceId}
                     </td>
-                    <td className="py-3.5 px-4 text-charcoal-500">
+                    <td className="py-3.5 px-4 text-slate-500">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </td>
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-forest-950">{item.name}</div>
-                      <div className="text-[11px] text-charcoal-500">{item.email}</div>
-                      {item.phone && <div className="text-[10px] text-charcoal-400">{item.phone}</div>}
+                      <div className="font-bold text-navy-900">{item.name}</div>
+                      {item.businessName && (
+                        <div className="text-[11px] text-royal-700 font-semibold">{item.businessName}</div>
+                      )}
+                      <div className="text-[11px] text-slate-500">{item.email}</div>
                     </td>
                     <td className="py-3.5 px-4">
-                      <div className="font-semibold text-gold-700">{item.category}</div>
-                      <div className="text-[11px] text-charcoal-600 truncate max-w-xs">{item.subject || item.message}</div>
+                      <div className="font-semibold text-navy-800">
+                        {item.serviceRequired || item.category || 'General Inquiry'}
+                      </div>
+                      {item.city && (
+                        <div className="text-[11px] text-slate-400 flex items-center">
+                          <MapPin className="w-3 h-3 mr-0.5 inline" /> {item.city}
+                        </div>
+                      )}
+                    </td>
+                    <td className="py-3.5 px-4">
+                      <span className="font-mono text-xs text-navy-700 font-medium">
+                        {item.budgetRange || 'Not specified'}
+                      </span>
                     </td>
                     <td className="py-3.5 px-4">
                       <Badge status={item.status}>{item.status}</Badge>
@@ -182,7 +197,7 @@ export const AdminInquiries = () => {
                     <td className="py-3.5 px-4 text-right">
                       <button
                         onClick={() => openDetailModal(item)}
-                        className="px-3 py-1.5 rounded-lg bg-forest-50 hover:bg-forest-100 text-forest-900 text-xs font-bold inline-flex items-center"
+                        className="px-3 py-1.5 rounded-lg bg-royal-50 hover:bg-royal-100 text-royal-700 text-xs font-bold inline-flex items-center transition-colors"
                       >
                         <Eye className="w-3.5 h-3.5 mr-1" />
                         <span>Inspect</span>
@@ -194,7 +209,7 @@ export const AdminInquiries = () => {
             </table>
           </div>
         ) : (
-          <div className="py-16 text-center text-xs text-charcoal-400">
+          <div className="py-16 text-center text-xs text-slate-400">
             No contact inquiries found.
           </div>
         )}
@@ -209,70 +224,86 @@ export const AdminInquiries = () => {
       >
         {selectedInquiry && (
           <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4 bg-sage-50 p-4 rounded-xl border border-sage-200 text-xs">
+            <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
               <div>
-                <span className="font-bold text-forest-950 block">Contact Name:</span>
-                <span className="text-charcoal-700">{selectedInquiry.name}</span>
+                <span className="font-bold text-navy-900 block">Contact Name:</span>
+                <span className="text-navy-700">{selectedInquiry.name}</span>
               </div>
               <div>
-                <span className="font-bold text-forest-950 block">Email Address:</span>
-                <a href={`mailto:${selectedInquiry.email}`} className="text-forest-900 underline">
+                <span className="font-bold text-navy-900 block">Business / Organization:</span>
+                <span className="text-navy-700 font-semibold">{selectedInquiry.businessName || 'Individual'}</span>
+              </div>
+              <div>
+                <span className="font-bold text-navy-900 block">Email Address:</span>
+                <a href={`mailto:${selectedInquiry.email}`} className="text-royal-600 underline">
                   {selectedInquiry.email}
                 </a>
               </div>
               <div>
-                <span className="font-bold text-forest-950 block">Phone Number:</span>
-                <span className="text-charcoal-700">{selectedInquiry.phone || 'N/A'}</span>
+                <span className="font-bold text-navy-900 block">Phone Number:</span>
+                <span className="text-navy-700">{selectedInquiry.phone || 'N/A'}</span>
               </div>
               <div>
-                <span className="font-bold text-forest-950 block">Inquiry Category:</span>
-                <span className="text-gold-700 font-semibold">{selectedInquiry.category}</span>
+                <span className="font-bold text-navy-900 block">City / Location:</span>
+                <span className="text-navy-700">{selectedInquiry.city || 'N/A'}</span>
+              </div>
+              <div>
+                <span className="font-bold text-navy-900 block">Preferred Contact:</span>
+                <span className="text-navy-700 font-semibold">{selectedInquiry.preferredContactMethod || 'Email'}</span>
+              </div>
+              <div>
+                <span className="font-bold text-navy-900 block">Service Required:</span>
+                <span className="text-royal-700 font-bold">{selectedInquiry.serviceRequired || selectedInquiry.category}</span>
+              </div>
+              <div>
+                <span className="font-bold text-navy-900 block">Budget Range:</span>
+                <span className="text-gold-700 font-bold">{selectedInquiry.budgetRange || 'Not specified'}</span>
               </div>
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs font-bold text-forest-950 uppercase tracking-wider block">
-                Inquiry Message:
+              <span className="text-xs font-bold text-navy-900 uppercase tracking-wider block">
+                Project Description & Scope:
               </span>
-              <div className="bg-white p-4 rounded-xl border border-sage-200 text-xs sm:text-sm text-charcoal-800 leading-relaxed whitespace-pre-line">
-                {selectedInquiry.message}
+              <div className="bg-white p-4 rounded-xl border border-slate-200 text-xs sm:text-sm text-navy-800 leading-relaxed whitespace-pre-line shadow-sm">
+                {selectedInquiry.projectDescription || selectedInquiry.message}
               </div>
             </div>
 
             {/* Internal Notes History */}
-            <div className="space-y-2 pt-2 border-t border-sage-200">
-              <span className="text-xs font-bold text-forest-950 uppercase tracking-wider flex items-center">
-                <MessageSquare className="w-3.5 h-3.5 mr-1 text-gold-600" />
+            <div className="space-y-2 pt-2 border-t border-slate-200">
+              <span className="text-xs font-bold text-navy-900 uppercase tracking-wider flex items-center">
+                <MessageSquare className="w-3.5 h-3.5 mr-1 text-royal-600" />
                 Internal Administrative Notes (Private)
               </span>
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 {selectedInquiry.internalNotes && selectedInquiry.internalNotes.length > 0 ? (
                   selectedInquiry.internalNotes.map((note, idx) => (
-                    <div key={idx} className="bg-sage-50 p-2.5 rounded-lg border border-sage-200 text-xs">
-                      <div className="flex items-center justify-between text-[10px] text-charcoal-400 mb-1">
-                        <span>By: {note.author}</span>
+                    <div key={idx} className="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+                      <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
+                        <span className="font-semibold text-navy-900">By: {note.author}</span>
                         <span>{new Date(note.createdAt).toLocaleString()}</span>
                       </div>
-                      <p className="text-charcoal-700">{note.note}</p>
+                      <p className="text-navy-700">{note.note}</p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-[11px] text-charcoal-400 italic">No internal notes added yet.</p>
+                  <p className="text-[11px] text-slate-400 italic">No internal notes added yet.</p>
                 )}
               </div>
             </div>
 
             {/* Update Status Form */}
-            <form onSubmit={handleUpdateStatus} className="pt-4 border-t border-sage-200 space-y-4">
+            <form onSubmit={handleUpdateStatus} className="pt-4 border-t border-slate-200 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="block text-xs font-bold text-forest-950 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-navy-900 uppercase tracking-wider">
                     Update Inquiry Status
                   </label>
                   <select
                     value={newStatus}
                     onChange={(e) => setNewStatus(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600 font-medium"
+                    className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500 font-medium text-navy-800"
                   >
                     <option value="New">New</option>
                     <option value="In Progress">In Progress</option>
@@ -283,7 +314,7 @@ export const AdminInquiries = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-xs font-bold text-forest-950 uppercase tracking-wider">
+                  <label className="block text-xs font-bold text-navy-900 uppercase tracking-wider">
                     Add Internal Note
                   </label>
                   <input
@@ -291,7 +322,7 @@ export const AdminInquiries = () => {
                     value={newNote}
                     onChange={(e) => setNewNote(e.target.value)}
                     placeholder="e.g. Call scheduled for tomorrow 2 PM"
-                    className="w-full px-3 py-2 text-xs bg-sage-50 border border-sage-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-600"
+                    className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-royal-500 text-navy-900"
                   />
                 </div>
               </div>

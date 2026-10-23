@@ -12,6 +12,11 @@ const ContactInquirySchema = new mongoose.Schema(
       required: [true, 'Name is required'],
       trim: true,
     },
+    businessName: {
+      type: String,
+      trim: true,
+      default: '',
+    },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -20,23 +25,48 @@ const ContactInquirySchema = new mongoose.Schema(
     },
     phone: {
       type: String,
+      required: [true, 'Mobile number is required'],
+      trim: true,
+    },
+    city: {
+      type: String,
+      required: [true, 'City is required'],
+      trim: true,
+    },
+    serviceRequired: {
+      type: String,
+      required: [true, 'Service required is mandatory'],
+      enum: [
+        'Website Development',
+        'Software Development',
+        'Mobile Application Development',
+        'Digital Marketing',
+        'Product Partnership',
+        'Vendor / Service Partner Registration',
+        'Other Business Inquiry',
+        'General Corporate Inquiry',
+      ],
+      default: 'Website Development',
+    },
+    budgetRange: {
+      type: String,
       trim: true,
       default: '',
     },
-    category: {
+    projectDescription: {
       type: String,
-      required: [true, 'Category is required'],
-      default: 'General Inquiry',
-    },
-    subject: {
-      type: String,
+      required: [true, 'Project description is required'],
       trim: true,
-      default: 'Corporate Contact Inquiry',
     },
-    message: {
+    preferredContactMethod: {
       type: String,
-      required: [true, 'Message is required'],
-      trim: true,
+      enum: ['Email', 'Phone', 'WhatsApp'],
+      default: 'Email',
+    },
+    consent: {
+      type: Boolean,
+      required: [true, 'Consent is required'],
+      default: true,
     },
     status: {
       type: String,
@@ -58,4 +88,5 @@ const ContactInquirySchema = new mongoose.Schema(
 
 ContactInquirySchema.index({ status: 1, createdAt: -1 });
 
-export default mongoose.models.ContactInquiry || mongoose.model('ContactInquiry', ContactInquirySchema);
+export default mongoose.models.ContactInquiry ||
+  mongoose.model('ContactInquiry', ContactInquirySchema);

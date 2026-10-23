@@ -1,4 +1,6 @@
 import Platform from '../models/Platform.js';
+import Service from '../models/Service.js';
+import PortfolioProject from '../models/PortfolioProject.js';
 import ContactInquiry from '../models/ContactInquiry.js';
 import PartnerInquiry from '../models/PartnerInquiry.js';
 import JobOpening from '../models/JobOpening.js';
@@ -10,20 +12,30 @@ import { getDBStatus } from '../config/db.js';
 export const getDashboardStats = async (req, res, next) => {
   try {
     const [
+      totalPublishedServices,
+      totalServices,
+      totalPublishedPlatforms,
+      productsUnderDevelopment,
       totalPlatforms,
-      publishedPlatforms,
+      publishedPortfolioProjects,
+      totalPortfolioProjects,
       totalContactInquiries,
       newContactInquiries,
       totalPartnerInquiries,
       newPartnerInquiries,
-      activeJobs,
+      publishedJobOpenings,
       totalApplications,
-      publishedNews,
+      publishedNewsArticles,
       recentContacts,
       recentPartners,
     ] = await Promise.all([
+      Service.countDocuments({ status: 'Published' }),
+      Service.countDocuments(),
+      Platform.countDocuments({ status: { $in: ['Live', 'Published'] } }),
+      Platform.countDocuments({ status: { $in: ['Under Development', 'Coming Soon', 'Draft'] } }),
       Platform.countDocuments(),
-      Platform.countDocuments({ status: 'Published' }),
+      PortfolioProject.countDocuments({ status: 'Published' }),
+      PortfolioProject.countDocuments(),
       ContactInquiry.countDocuments(),
       ContactInquiry.countDocuments({ status: 'New' }),
       PartnerInquiry.countDocuments(),
@@ -38,15 +50,20 @@ export const getDashboardStats = async (req, res, next) => {
     res.status(200).json({
       success: true,
       stats: {
+        totalPublishedServices,
+        totalServices,
+        totalPublishedPlatforms,
+        productsUnderDevelopment,
         totalPlatforms,
-        publishedPlatforms,
+        publishedPortfolioProjects,
+        totalPortfolioProjects,
         totalContactInquiries,
         newContactInquiries,
         totalPartnerInquiries,
         newPartnerInquiries,
-        activeJobs,
+        publishedJobOpenings,
         totalApplications,
-        publishedNews,
+        publishedNewsArticles,
       },
       recentActivity: {
         contacts: recentContacts,
@@ -69,6 +86,14 @@ export const getCompanySettings = async (req, res, next) => {
       settings = await CompanySettings.create({
         companyName: 'Namah Siddham Corporation Private Limited',
         cin: 'U77100MP2026PTC087531',
+        registeredOffice: {
+          addressLine1: 'Bhopal, Madhya Pradesh, India',
+          city: 'Bhopal',
+          state: 'Madhya Pradesh',
+          country: 'India',
+          pincode: '462001',
+          fullAddress: 'Registered Office: Bhopal, Madhya Pradesh, India. CIN: U77100MP2026PTC087531',
+        },
       });
     }
     res.status(200).json({
@@ -85,7 +110,8 @@ export const updateCompanySettings = async (req, res, next) => {
     const updateData = { ...req.body };
 
     // Prevent inadvertent clearing of legal identifiers
-    if (!updateData.companyName) updateData.companyName = 'Namah Siddham Corporation Private Limited';
+    if (!updateData.companyName)
+      updateData.companyName = 'Namah Siddham Corporation Private Limited';
     if (!updateData.cin) updateData.cin = 'U77100MP2026PTC087531';
 
     let settings = await CompanySettings.findOne();

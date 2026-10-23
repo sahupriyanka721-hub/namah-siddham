@@ -18,6 +18,10 @@ const PlatformSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    coverImage: {
+      type: String,
+      default: '',
+    },
     category: {
       type: String,
       required: [true, 'Category is required'],
@@ -32,6 +36,14 @@ const PlatformSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Detailed description is required'],
     },
+    problemSolved: {
+      type: String,
+      default: '',
+    },
+    targetAudience: {
+      type: String,
+      default: '',
+    },
     websiteUrl: {
       type: String,
       required: [true, 'Website URL is required'],
@@ -41,10 +53,6 @@ const PlatformSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    targetAudience: {
-      type: String,
-      default: '',
-    },
     useCases: {
       type: [String],
       default: [],
@@ -53,10 +61,14 @@ const PlatformSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    partnerOpportunities: {
+      type: String,
+      default: '',
+    },
     status: {
       type: String,
-      enum: ['Draft', 'Published', 'Coming Soon', 'Archived'],
-      default: 'Published',
+      enum: ['Live', 'Under Development', 'Coming Soon', 'Hidden', 'Draft', 'Published', 'Archived'],
+      default: 'Under Development',
     },
     isFeatured: {
       type: Boolean,
